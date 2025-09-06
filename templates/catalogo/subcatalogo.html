@@ -13,10 +13,10 @@
             {% for producto in productos %}
             <div class="col-md-3 mb-3">
                 <div class="card shadow-sm">
-                    <img src="{% static 'images/' %}{{ producto|slugify }}.jpg" class="card-img-top" alt="{{ producto }}">
+                    <img src="{% static 'images/' %}{{ producto.imagen }}.jpg" class="card-img-top" alt="{{ producto.nombre }}">
                     <div class="card-body text-center">
-                        <h5 class="card-title">{{ producto }}</h5>
-                        <a href="{% url 'detalle_producto' producto %}" class="btn btn-success">Ver detalle</a>
+                        <h5 class="card-title">{{ producto.nombre }}</h5>
+                        <a href="{% url 'detalle_producto' producto.nombre %}" class="btn btn-success">Ver detalle</a>
                     </div>
                 </div>
             </div>

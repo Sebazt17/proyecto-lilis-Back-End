@@ -22,7 +22,61 @@ PRODUCTOS = {
 }
 
 # Diccionario de detalles por producto
-DETALLES = {
+DETALLES ={
+    "Chocolate bitter": {
+        "descripcion": "Chocolate amargo 70% cacao.",
+        "ingredientes": "Cacao, manteca de cacao, azúcar.",
+        "tiempo_produccion": "2 horas",
+        "imagen": "chocolate_bitter.jpg"
+    },
+    "Chocolate con almendras": {
+        "descripcion": "Chocolate con trozos de almendras chilenas.",
+        "ingredientes": "Cacao, almendras, leche, azúcar.",
+        "tiempo_produccion": "2 horas",
+        "imagen": "chocolate_almendras.jpg"
+    },
+    "Chocolate blanco": {
+        "descripcion": "Chocolate blanco artesanal.",
+        "ingredientes": "Manteca de cacao, leche, azúcar.",
+        "tiempo_produccion": "1.5 horas",
+        "imagen": "chocolate_blanco.jpg"
+    },
+    "Galleta de avena": {
+        "descripcion": "Galleta casera de avena con pasas.",
+        "ingredientes": "Avena, pasas, harina, huevo, azúcar.",
+        "tiempo_produccion": "40 minutos",
+        "imagen": "galleta_avena.jpg"
+    },
+    "Galleta chips": {
+        "descripcion": "Galleta de mantequilla con chips de chocolate.",
+        "ingredientes": "Harina, mantequilla, azúcar, chips de chocolate.",
+        "tiempo_produccion": "35 minutos",
+        "imagen": "galleta_chips.jpg"
+    },
+    "Galleta de mantequilla": {
+        "descripcion": "Clásica galleta de mantequilla.",
+        "ingredientes": "Harina, mantequilla, azúcar.",
+        "tiempo_produccion": "30 minutos",
+        "imagen": "galleta_mantequilla.jpg"
+    },
+    "Bombón frutilla": {
+        "descripcion": "Bombón relleno de crema de frutilla.",
+        "ingredientes": "Chocolate, frutilla, leche.",
+        "tiempo_produccion": "1 hora",
+        "imagen": "bombon_frutilla.jpg"
+    },
+    "Bombón trufa": {
+        "descripcion": "Bombón relleno de ganache de chocolate.",
+        "ingredientes": "Chocolate, crema, cacao en polvo.",
+        "tiempo_produccion": "1 hora",
+        "imagen": "bombon_trufa.jpg"
+    },
+    "Bombón café": {
+        "descripcion": "Bombón con relleno de café.",
+        "ingredientes": "Chocolate, café, crema, azúcar.",
+        "tiempo_produccion": "1 hora",
+        "imagen": "bombon_cafe.jpg"
+    },
     "Alfajor de papaya": {
         "descripcion": "Alfajor relleno con papaya chilena.",
         "ingredientes": "Harina, huevo, papaya, azúcar, leche.",
@@ -68,7 +122,20 @@ def index(request):
 # Vista subcatálogo
 def subcatalogo(request, categoria):
     productos = PRODUCTOS.get(categoria, [])
-    return render(request, "catalogo/subcatalogo.html", {"categoria": categoria, "productos": productos})
+    productos_con_detalle = []
+
+    for p in productos:
+        detalle = DETALLES.get(p, {})
+        productos_con_detalle.append({
+            "nombre": p,
+            "imagen": detalle.get("imagen", "default.jpg")  # fallback si no tiene
+        })
+
+    return render(request, "catalogo/subcatalogo.html", {
+        "categoria": categoria,
+        "productos": productos_con_detalle
+    })
+
 
 # Vista detalle
 def detalle_producto(request, producto):
