@@ -115,9 +115,16 @@ DETALLES ={
     }
 }
 
+
+# Vista landing page
+def landing(request):
+    return render(request, 'catalogo/landing.html')
+
 # Vista catálogo principal
-def index(request):
-    return render(request, "catalogo/index.html", {"categorias": CATEGORIAS})
+def catalogo(request):
+    return render(request, 'catalogo/catalogo.html', {
+        "categorias": CATEGORIAS
+    })
 
 # Vista subcatálogo
 def subcatalogo(request, categoria):
@@ -128,7 +135,7 @@ def subcatalogo(request, categoria):
         detalle = DETALLES.get(p, {})
         productos_con_detalle.append({
             "nombre": p,
-            "imagen": detalle.get("imagen", "default.jpg")  # fallback si no tiene
+            "imagen": detalle.get("imagen", "default.jpg")
         })
 
     return render(request, "catalogo/subcatalogo.html", {
