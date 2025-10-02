@@ -1,6 +1,31 @@
 from django.db import models
 
-# Create your models here.
+
+class categoria(models.Model):
+    categoria = models.CharField(max_length=20,verbose_name='Nombre Categoria')
+
+class Producto(models.model):
+    nombre = models.CharField(max_length=30,verbose_name='Nombre Producto')
+    ingredientes = models.TextField(max_length=400,verbose_name='Ingredientes')
+    tiempo_produccion = models.CharField(max_length=50,verbose_name='Tiempo de Producción')
+    descripcion = models.TextField(max_length=400,verbose_name='Descripción Producto')
+
+    def __str__(self):
+        return "{} {}: ${}".format(self.nombre,self.ingredientes,self.descripcion)
+    
+    class Meta:
+        db_table = 'Producto'
+        verbose_name = 'producto'
+        verbose_name_plural = 'productos'
+
+
+
+
+
+
+
+
+"""# Create your models here.
 # Diccionario de categorías
 CATEGORIAS = [
     "Chocolates",
@@ -111,4 +136,4 @@ DETALLES ={
         "tiempo_produccion": "45 minutos",
         "imagen": "gomitas.jpg"
     }
-}
+}"""
