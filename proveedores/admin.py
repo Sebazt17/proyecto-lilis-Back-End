@@ -1,4 +1,3 @@
-# proveedores/admin.py
 from django.contrib import admin
 from proveedores.models import Region, Proveedor
 

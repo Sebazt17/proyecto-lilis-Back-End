@@ -1,4 +1,3 @@
-# proveedores/models.py
 from django.db import models
 from django.utils import timezone
 from .choices import TIPO_PROVEEDOR, ESTADO_PROVEEDOR, EVALUACION_CALIDAD
