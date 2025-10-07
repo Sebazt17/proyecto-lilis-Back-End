@@ -1,17 +1,27 @@
 from django.db import models
 
 
-class categoria(models.Model):
-    categoria = models.CharField(max_length=20,verbose_name='Nombre Categoria')
+class Categoria(models.Model):
+    nombre = models.CharField(max_length=20,verbose_name='Nombre Categoria')
 
-class Producto(models.model):
+    def __str__(self):
+        return self.nombre
+    
+    class Meta:
+        db_table = 'Categoria'
+        verbose_name = 'Categoria'
+        verbose_name_plural = 'Categorias' 
+
+class Producto(models.Model):
     nombre = models.CharField(max_length=30,verbose_name='Nombre Producto')
     ingredientes = models.TextField(max_length=400,verbose_name='Ingredientes')
     tiempo_produccion = models.CharField(max_length=50,verbose_name='Tiempo de Producción')
     descripcion = models.TextField(max_length=400,verbose_name='Descripción Producto')
+    imagen = models.CharField(max_length=100,default="default.jpg")
+    categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE,related_name="productos")
 
     def __str__(self):
-        return "{} {}: ${}".format(self.nombre,self.ingredientes,self.descripcion)
+        return f"{self.nombre} - {self.categoria.nombre}"
     
     class Meta:
         db_table = 'Producto'
