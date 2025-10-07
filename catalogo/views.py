@@ -1,50 +1,42 @@
-from django.shortcuts import render
-
-# Create your views here.
-from django.shortcuts import render
-
-from catalogo import models as infoProductos
+from django.shortcuts import render, get_object_or_404
+from catalogo.models import Categoria, Producto
 
 
-# Vista landing page
+# 🏠 Landing
 def landing(request):
     return render(request, 'catalogo/landing.html')
 
-# Vista catálogo principal
+
+# 📚 Catálogo principal (lista de categorías)
 def catalogo(request):
+    categorias = Categoria.objects.all()
     return render(request, 'catalogo/catalogo.html', {
-        "categorias": infoProductos.CATEGORIAS
+        "categorias": categorias
     })
 
-# Vista subcatálogo
+
+# 🍬 Subcatálogo (productos dentro de una categoría)
 def subcatalogo(request, categoria):
-    productos = infoProductos.PRODUCTOS.get(categoria, [])
-    productos_con_detalle = []
-
-    for p in productos:
-        detalle = infoProductos.DETALLES.get(p, {})
-        productos_con_detalle.append({
-            "nombre": p,
-            "imagen": detalle.get("imagen", "default.jpg")
-        })
-
+    categoria_obj = get_object_or_404(Categoria, nombre=categoria)
+    productos = Producto.objects.filter(categoria=categoria_obj)
     return render(request, "catalogo/subcatalogo.html", {
-        "categoria": categoria,
-        "productos": productos_con_detalle
+        "categoria": categoria_obj,
+        "productos": productos
     })
 
 
-# Vista detalle
+# 🔍 Detalle de producto individual
 def detalle_producto(request, producto):
-    detalle = infoProductos.DETALLES.get(producto, {})
-    categoria = None
-    for cat, prods in infoProductos.PRODUCTOS.items():
-        if producto in prods:
-            categoria = cat
-            break
-    return render(request, "catalogo/detalle.html", {"producto": producto, "detalle": detalle, "categoria": categoria})
+    producto_obj = get_object_or_404(Producto, nombre=producto)
+    categoria = producto_obj.categoria
+    return render(request, "catalogo/detalle.html", {
+        "producto": producto_obj.nombre,
+        "detalle": producto_obj,
+        "categoria": categoria.nombre
+    })
 
-# Vista empresa (misión, visión, valores, etc.)
+
+# 🏢 Página empresa
 def empresa(request):
     data = {
         "historia": "Dulcería Lilis nació en 1995...",
