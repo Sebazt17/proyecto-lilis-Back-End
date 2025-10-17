@@ -1,5 +1,7 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from catalogo.models import Categoria, Producto
+from catalogo.forms import ProductoForm
+from django.http import HttpResponse
 
 
 # 🏠 Landing
@@ -50,3 +52,57 @@ def empresa(request):
         }
     }
     return render(request, "catalogo/empresa.html", data)
+
+
+
+#####MANTENEDORES####
+def mantenedores(request):
+    return render(request, 'mantenedores/inicioMantenedores.html')
+
+
+
+#Mantenedor productos 
+def MantenedorAgregarProducto(request):
+    form=ProductoForm()
+    return render(request,'mantenedores/productos/MantenedorAgregarProducto.html',{'form':form})
+
+def mostrar_todos_productos(request):
+    productos = Producto.objects.all()
+    return render(request, 'mantenedores/productos/todos_productos.html', {'productos': productos})
+
+
+def crear_producto(request):
+    if request.method == 'POST':
+        form = ProductoForm(request.POST)
+        if form.is_valid():
+            producto = form.save(commit=False)
+
+            if not producto.imagen or producto.imagen.strip() == "":
+                producto.imagen = "default.jpg"
+
+            producto.save()
+            return redirect("mostrar_todos_productos")
+       
+    else:
+        form = ProductoForm()
+
+    return render(request, 'mantenedores/productos/MantenedorAgregarProducto.html', {'form': form})
+
+def editar_producto(request, id):
+    producto = get_object_or_404(Producto, id=id)
+    if request.method == 'POST':
+        form = ProductoForm(request.POST, instance=producto)
+        if form.is_valid():
+            form.save()
+            return redirect("mostrar_todos_productos")
+    else:
+        form = ProductoForm(instance=producto)
+    return render(request, 'mantenedores/productos/mantenedorEditarProducto.html', {'form': form, 'producto': producto})
+
+
+def eliminar_producto(request, id):
+    producto = get_object_or_404(Producto, id=id)
+    if request.method == 'POST':
+        producto.delete()
+        return redirect('mostrar_todos_productos')
+    return render(request, 'mantenedores/confirmar_eliminacion.html', {'producto': producto})

@@ -1,0 +1,64 @@
+{% extends "mantenedores/paginaBase.html" %}
+{% load static %}
+
+{% block titulo %}
+<h1 class="text-center p-3 rounded">Listado de Proveedores</h1>
+{% endblock titulo %}
+
+{% block contenido %}
+
+<div class="d-flex justify-content-center mt-4 gap-1">
+    <a href="{% url 'MantenedorAgregarProveedor' %}" class="btn btn-success">Agregar Nuevo Proveedor</a>
+</div>
+
+<div class="container mt-2">
+  {% if proveedores %}
+  <table class="table table-bordered table-hover table-striped align-middle">
+    <thead class="text-white" style="background-color: #990000;"> <!-- rojo oscuro -->
+      <tr>
+        <th>#</th>
+        <th>Razón Social</th>
+        <th>RUT</th>
+        <th>Nombre Ficticio</th>
+        <th>Teléfono</th>
+        <th>Email</th>
+        <th>Tipo Proveedor</th>
+        <th>Estado</th>
+        <th>Región</th>
+        <th>Productos Abastecidos</th>
+        <th>Tiempo Entrega (días)</th>
+        <th>Certificaciones</th>
+        <th>Evaluación Calidad</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for proveedor in proveedores %}
+      <tr>
+        <td class="text-center">{{ forloop.counter }}</td>
+        <td>{{ proveedor.rut_nif }}</td>
+        <td>{{ proveedor.razon_social }}</td>
+        
+        <td>{{ proveedor.nombre_ficticio }}</td>
+        <td>{{ proveedor.telefono }}</td>
+        <td>{{ proveedor.email }}</td>
+        <td>{{ proveedor.get_tipo_proveedor_display }}</td>
+        <td>{{ proveedor.get_estado_display }}</td>
+        <td>{{ proveedor.region.nombre }}</td>
+        <td>{{ proveedor.productos_que_abastece }}</td>
+        <td class="text-center">{{ proveedor.tiempo_entrega_promedio }}</td>
+        <td>{{ proveedor.certificaciones }}</td>
+        <td class="text-center">{{ proveedor.get_evaluacion_calidad_display }}</td>
+        <td class="text-center">
+          <a href="{% url 'editar_proveedor' proveedor.id %}" class="btn btn-warning btn-sm px-3 me-2">Editar</a>
+          <a href="{% url 'eliminar_proveedor' proveedor.id %}" class="btn btn-danger btn-sm px-3">Eliminar</a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <div class="alert alert-warning text-center">No hay proveed
+    {% endif %}
+</div>
+{% endblock contenido %}

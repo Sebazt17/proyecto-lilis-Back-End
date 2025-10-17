@@ -1,0 +1,104 @@
+{% extends "mantenedores/paginaBase.html" %}
+{% load static %}
+
+{% block titulo %}
+<h1 class="text-center p-3 rounded">Editar/Actualizar Proveedor</h1>
+{% endblock titulo %}
+
+{% block contenido %}
+<div class="card mx-auto mb-4 text-bg-dark shadow-lg" style="max-width: 1200px;">
+    <div class="row g-0">
+
+        <!-- Formulario -->
+        <div class="col-md-12 p-4">
+            <form method="post" action="{% url 'editar_proveedor' id=proveedor.id %}">
+                {% csrf_token %}
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        {{ form.razon_social.label_tag }}
+                        {{ form.razon_social }}
+                        {{ form.razon_social.errors }}
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        {{ form.rut.label_tag }}
+                        {{ form.rut }}
+                        {{ form.rut.errors }}
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        {{ form.nombre_ficticio.label_tag }}
+                        {{ form.nombre_ficticio }}
+                        {{ form.nombre_ficticio.errors }}
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        {{ form.telefono.label_tag }}
+                        {{ form.telefono }}
+                        {{ form.telefono.errors }}
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        {{ form.email.label_tag }}
+                        {{ form.email }}
+                        {{ form.email.errors }}
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        {{ form.tipo_proveedor.label_tag }}
+                        {{ form.tipo_proveedor }}
+                        {{ form.tipo_proveedor.errors }}
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        {{ form.estado.label_tag }}
+                        {{ form.estado }}
+                        {{ form.estado.errors }}
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        {{ form.region.label_tag }}
+                        {{ form.region }}
+                        {{ form.region.errors }}
+                    </div>
+
+                    <div class="col-12 mb-3">
+                        {{ form.productos_que_abastece.label_tag }}
+                        {{ form.productos_que_abastece }}
+                        {{ form.productos_que_abastece.errors }}
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        {{ form.tiempo_entrega_promedio.label_tag }}
+                        {{ form.tiempo_entrega_promedio }}
+                        {{ form.tiempo_entrega_promedio.errors }}
+                    </div>
+
+                    <div class="col-12 mb-3">
+                        {{ form.certificaciones.label_tag }}
+                        {{ form.certificaciones }}
+                        {{ form.certificaciones.errors }}
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        {{ form.evaluacion_calidad.label_tag }}
+                        {{ form.evaluacion_calidad }}
+                        {{ form.evaluacion_calidad.errors }}
+                    </div>
+                </div>
+
+                <!-- Botones -->
+                <div class="d-flex justify-content-center gap-3 mt-4">
+                    <button type="submit" class="btn btn-warning px-4">
+                        <i class="bi bi-plus-circle"></i> Actualizar
+                    </button>
+                    <a href="{% url 'mostrar_todos_proveedores' %}" class="btn btn-outline-danger px-4">
+                        <i class="bi bi-house"></i> Volver
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock contenido %}
